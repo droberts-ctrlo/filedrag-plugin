@@ -18,7 +18,7 @@ export const removeClass = (element: HtmlElementOrJQueryElement, className: stri
     getElement(element).removeClass(className);
 }
 
-export const hide = (element: HtmlElementOrJQueryElement): void => {
+export const hideElement = (element: HtmlElementOrJQueryElement): void => {
     if(hasClass(element, "hidden")) return;
     getElement(element).addClass("hidden");
     getElement(element).attr("aria-hidden", "true");
@@ -26,7 +26,7 @@ export const hide = (element: HtmlElementOrJQueryElement): void => {
     getElement(element).css("visibility", "hidden");
 }
 
-export const show = (element: HtmlElementOrJQueryElement): void => {
+export const showElement = (element: HtmlElementOrJQueryElement): void => {
     if(!hasClass(element, "hidden")) return;
     getElement(element).removeClass("hidden");
     getElement(element).removeAttr("aria-hidden");
