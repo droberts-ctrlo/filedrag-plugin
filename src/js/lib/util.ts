@@ -22,7 +22,6 @@ export const hide = (element: HtmlElementOrJQueryElement): void => {
     if(hasClass(element, "hidden")) return;
     getElement(element).addClass("hidden");
     getElement(element).attr("aria-hidden", "true");
-    getElement(element).attr("tabindex", "-1");
     getElement(element).css("display", "none");
     getElement(element).css("visibility", "hidden");
 }
@@ -32,6 +31,5 @@ export const show = (element: HtmlElementOrJQueryElement): void => {
     getElement(element).removeClass("hidden");
     getElement(element).removeAttr("aria-hidden");
     getElement(element).removeAttr("tabindex");
-    getElement(element).css("display", "");
-    getElement(element).css("visibility", "");
+    getElement(element).removeAttr("style");
 }
