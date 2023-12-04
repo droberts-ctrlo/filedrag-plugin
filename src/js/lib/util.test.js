@@ -1,4 +1,4 @@
-import { addClass, hasClass, hide as hideElement, removeClass, show as showElement } from "./util";
+import { addClass, hasClass, hideElement as hideElement, removeClass, showElement as showElement } from "./util";
 
 window.$ = require('jquery');
 
