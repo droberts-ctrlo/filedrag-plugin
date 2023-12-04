@@ -4,11 +4,12 @@ import { addClass, hideElement, removeClass, showElement, stopPropagation } from
 interface DropZoneOptions {
     debug?: boolean;
     multiple?: boolean;
+    testing?: boolean;
 }
 
 export class DropZone {
     private el: JQuery<HTMLElement>;
-    private dropZone: JQuery<HTMLElement>;
+    protected dropZone: JQuery<HTMLElement>;
     protected dragging: boolean = false;
 
     constructor(element: HtmlElementOrJQueryElement, private options: DropZoneOptions, private callback: (files: File[]) => void) {
@@ -45,7 +46,7 @@ export class DropZone {
             this.dragging = false;
             hideElement(this.dropZone);
             showElement(this.el);
-            const files = e.originalEvent.dataTransfer.files;
+            const files = this.options.testing ? [new File([""],"test.txt")]: e.originalEvent.dataTransfer.files;
             if(this.options.debug) console.log("Dropping: ", files);
             this.callback(this.options.multiple ? Array.from(files): [files[0]]);
         });
@@ -59,8 +60,8 @@ export class DropZone {
             showElement(this.dropZone);
             hideElement(this.el);
         });
-        $(document).on("dragoleave", (e:JQuery.DragLeaveEvent)=> {
-            if(e.originalEvent.clientX != 0 && e.originalEvent.clientY != 0) return;
+        $(document).on("dragleave", (e:JQuery.DragLeaveEvent)=> {
+            if(!(this.options.testing) && e.originalEvent.clientX != 0 && e.originalEvent.clientY != 0 ) return;
             if(!this.dragging) return;
             this.dragging = false;
             hideElement(this.dropZone);
