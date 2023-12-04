@@ -1,7 +1,7 @@
 import { HtmlElementOrJQueryElement } from "./types";
 import { addClass, hideElement, removeClass, showElement, stopPropagation } from "./util";
 
-interface DropZoneOptions {
+export interface DropZoneOptions {
     debug?: boolean;
     multiple?: boolean;
     testing?: boolean;
