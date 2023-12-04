@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <title>JQuery Test</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.11.6/umd/popper.min.js"></script>
+</head>
+<body>
+    <div id="file-drag-area">
+        <div id="file-drag-zone">
+            <p>You should be able to drop files here!</p>
+        </div>
+    </div>
+</body>
+<script src="./js/site.js"></script>
+<script>
+    $("#file-drag-zone").dropZone({debug:true}).on("dropzone.drop", (e,files)=>{
+        console.log(files)
+    });
+</script>
+</html>
