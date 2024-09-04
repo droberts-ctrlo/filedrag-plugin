@@ -1,5 +1,4 @@
-import { HtmlElementOrJQueryElement } from "./types";
-import { addClass, hideElement, removeClass, showElement, stopPropagation } from "./util";
+import { hideElement, showElement } from "./util";
 
 export interface DropZoneOptions {
     debug?: boolean;
@@ -12,7 +11,7 @@ export class DropZone {
     protected dropZone: JQuery<HTMLElement>;
     protected dragging: boolean = false;
 
-    constructor(element: HtmlElementOrJQueryElement, private options: DropZoneOptions, private callback: (files: File[]) => void) {
+    constructor(element: HTMLElement | JQuery<HTMLElement>, private options: DropZoneOptions, private callback: (files: File[]) => void) {
         if(this.options.debug) console.log("DropZone", element, options);
         this.el = element instanceof HTMLElement ? $(element) : element;
         if(this.options.multiple === undefined) this.options.multiple = false;
@@ -31,18 +30,18 @@ export class DropZone {
         if(this.options.debug) console.log("DropZone.addElementListeners");
         this.dropZone.on("dragenter", (e:JQuery.DragEnterEvent)=> {
             if(!this.dragging) return;
-            stopPropagation(e);
-            addClass(this.dropZone, "drag-over");
+            e.stopPropagation();
+            this.dropZone.addClass("drag-over");
         });
         this.dropZone.on("dragleave", (e:JQuery.DragLeaveEvent)=> {
             if(!this.dragging) return;
-            stopPropagation(e);
-            removeClass(this.dropZone, "drag-over");
+            e.stopPropagation();
+            this.dropZone.removeClass("drag-over");
         });
         this.dropZone.on("drop", (e:JQuery.DropEvent)=> {
             if(!this.dragging) return;
-            stopPropagation(e);
-            removeClass(this.dropZone, "drag-over");
+            e.stopPropagation();
+            this.dropZone.removeClass("drag-over");
             this.dragging = false;
             hideElement(this.dropZone);
             showElement(this.el);
@@ -67,7 +66,7 @@ export class DropZone {
             hideElement(this.dropZone);
             showElement(this.el);
         });
-        $(document).on("drop", (e)=> {stopPropagation(e);})
+        $(document).on("drop", (e)=> {e.stopPropagation();})
     }
 
     private getElements() {

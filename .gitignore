@@ -128,4 +128,4 @@ out
 .yarn/install-state.gz
 .pnp.*
 
-createpackage.ps1
+dist
