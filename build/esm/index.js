@@ -1,4 +1,4 @@
-import { DropZone } from "./lib/DropZone";
+import { DropZone } from './lib/DropZone';
 (function ($) {
     $.fn.dropZone = function (options) {
         const settings = $.extend({
@@ -8,7 +8,7 @@ import { DropZone } from "./lib/DropZone";
         }, options);
         this.each(function () {
             new DropZone(this, settings, (files) => {
-                $(this).trigger("dropzone.drop", files);
+                $(this).trigger('dropzone.drop', files);
             });
         });
         return this;

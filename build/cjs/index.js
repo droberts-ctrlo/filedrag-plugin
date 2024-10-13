@@ -10,7 +10,7 @@ const DropZone_1 = require("./lib/DropZone");
         }, options);
         this.each(function () {
             new DropZone_1.DropZone(this, settings, (files) => {
-                $(this).trigger("dropzone.drop", files);
+                $(this).trigger('dropzone.drop', files);
             });
         });
         return this;
