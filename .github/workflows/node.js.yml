@@ -28,3 +28,4 @@ jobs:
         cache: 'yarn'
     - run: yarn
     - run: yarn jest --passWithNoTests
+    - run: yarn eslint
