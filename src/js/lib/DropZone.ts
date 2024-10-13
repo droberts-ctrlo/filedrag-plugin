@@ -1,14 +1,11 @@
-import { hideElement, showElement } from "./util";
-
 export interface DropZoneOptions {
     debug?: boolean;
     multiple?: boolean;
-    testing?: boolean;
 }
 
 export class DropZone {
     private el: JQuery<HTMLElement>;
-    protected dropZone: JQuery<HTMLElement>;
+    protected dropZone!: JQuery<HTMLElement>;
     protected dragging: boolean = false;
 
     constructor(element: HTMLElement | JQuery<HTMLElement>, private options: DropZoneOptions, private callback: (files: File[]) => void) {
@@ -43,9 +40,9 @@ export class DropZone {
             e.stopPropagation();
             this.dropZone.removeClass("drag-over");
             this.dragging = false;
-            hideElement(this.dropZone);
-            showElement(this.el);
-            const files = this.options.testing ? [new File([""],"test.txt")]: e.originalEvent.dataTransfer.files;
+            this.dropZone.hide();
+            this.el.show();
+            const files = e.originalEvent!.dataTransfer!.files;
             if(this.options.debug) console.log("Dropping: ", files);
             this.callback(this.options.multiple ? Array.from(files): [files[0]]);
         });
@@ -53,18 +50,18 @@ export class DropZone {
 
     private addDocumentListeners() {
         if(this.options.debug) console.log("DropZone.addDocumentListeners");
-        $(document).on("dragenter", (e)=> {
+        $(document).on("dragenter", ()=> {
             if(this.dragging) return;
             this.dragging = true;
-            showElement(this.dropZone);
-            hideElement(this.el);
+            this.dropZone.show();
+            this.el.hide();
         });
         $(document).on("dragleave", (e:JQuery.DragLeaveEvent)=> {
-            if(!(this.options.testing) && e.originalEvent.clientX != 0 && e.originalEvent.clientY != 0 ) return;
+            if(e.originalEvent!.clientX != 0 && e.originalEvent!.clientY != 0 ) return;
             if(!this.dragging) return;
             this.dragging = false;
-            hideElement(this.dropZone);
-            showElement(this.el);
+            this.dropZone.hide();
+            this.el.show();
         });
         $(document).on("drop", (e)=> {e.stopPropagation();})
     }
@@ -74,6 +71,6 @@ export class DropZone {
         this.el.data("dropzone", "true");
         this.dropZone = $(`<div class="drop-zone"></div>`);
         this.el.parent().append(this.dropZone);
-        hideElement(this.dropZone);
+        this.dropZone.hide();
     }
 };

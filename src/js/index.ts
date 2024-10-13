@@ -1,4 +1,3 @@
-import "../css/index.scss";
 import { DropZone, DropZoneOptions } from "./lib/DropZone";
 
 declare global {
@@ -20,7 +19,7 @@ declare global {
 
         this.each(function () {
             new DropZone(this, settings, (files) => {
-                this.trigger("dropzone.drop", files);
+                $(this).trigger("dropzone.drop", files);
             });
         });
 

@@ -1,16 +1,18 @@
 import { DropZone } from "./DropZone";
+import { it, describe, expect, jest } from "@jest/globals";
 
 declare global {
     interface Window {
-        $: any;
+        $: JQueryStatic;
+        jQuery: JQueryStatic;
     }
 }
 
-window.$ = require("jquery");
+window.$ = window.jQuery = require("jquery");
 
 class TestDropZone extends DropZone {
     constructor(element: HTMLElement, callback: any) {
-        super(element, {debug: true, testing: true}, callback);
+        super(element, {debug: true }, callback);
     }
 
     public getDragging(): boolean {
@@ -44,8 +46,8 @@ describe("DropZone tests", ()=> {
         element.appendChild(dropElement);
         document.body.appendChild(element);
         const dropZone = new TestDropZone(dropElement, ()=> {});
-        const event = new Event("dragenter");
-        document.dispatchEvent(event);
+        const event = $.Event("dragenter");
+        $(document).trigger(event);
         expect(dropZone.getDragging()).toBe(true);
     });
 
@@ -56,8 +58,8 @@ describe("DropZone tests", ()=> {
         document.body.appendChild(element);
         const dropZone = new TestDropZone(dropElement, ()=> {});
         dropZone.setDragging(true);
-        const event = new Event("dragleave");
-        document.dispatchEvent(event);
+        const event = $.Event("dragleave", {originalEvent: {clientX: 0, clientY: 0}});
+        $(document).trigger(event);
         expect(dropZone.getDragging()).toBe(false);
     });
 
@@ -69,9 +71,9 @@ describe("DropZone tests", ()=> {
         const callback = jest.fn();
         const dropZone = new TestDropZone(dropElement, callback);
         dropZone.setDragging(true);
-        const event: Event = new Event("drop");
+        const event = $.Event("drop", { originalEvent: {dataTransfer: {files: [new File([""], "test.txt")] }, stopPropagation: ()=>{}}});
         const target = dropZone.getDropZone();
-        target.trigger("drop", event);
+        target.trigger(event);
         expect(callback).toHaveBeenCalledTimes(1);
         expect(callback).toHaveBeenCalledWith([new File([""], "test.txt")]);
         expect(dropZone.getDragging()).toBe(false);
