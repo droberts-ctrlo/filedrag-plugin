@@ -1,0 +1,14 @@
+.drop-zone {
+  border: 1px dashed #ccc;
+  color: #ccc;
+  padding: 20px;
+  text-align: center;
+  margin-bottom: 20px;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+
+  &.drag-over {
+    border: 1px dashed #333;
+    color: #000;
+  }
+}
